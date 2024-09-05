@@ -8,3 +8,5 @@
 [DPLL 算法之分裂策略](https://blog.csdn.net/wniuniu_/article/details/132550401)
 
 [DPLL-SAT-Solver](https://github.com/hjnodm/DPLL-SAT-Solver/blob/master)
+
+[个人笔记](https://www.cnblogs.com/losyi/p/18397445)
