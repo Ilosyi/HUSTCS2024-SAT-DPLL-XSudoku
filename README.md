@@ -1,4 +1,4 @@
-# 华中科技大学2024秋程序设计综合综合课程设计：基于SAT的对角线数独游戏求解程序
+# 华中科技大学2024秋数据结构综合课程设计：基于SAT的对角线数独游戏求解程序
 参考资料
 
 [HUST-SAT_solver_embedded_in_hanidoku](https://github.com/jiajingyyyyyy/HUST-SAT_solver_embedded_in_hanidoku)
