@@ -10,3 +10,8 @@
 [DPLL-SAT-Solver](https://github.com/hjnodm/DPLL-SAT-Solver/blob/master)
 
 [个人笔记](https://www.cnblogs.com/losyi/p/18397445)
+
+注:
+本项目用vector存储cnf，进行传播时需要重新建立一个vector，在处理长子句时效率极低
+
+用链表的同学可参考[DPLL求解K-SAT问题 C++实现](https://www.cnblogs.com/chesium/p/15982285.html)
