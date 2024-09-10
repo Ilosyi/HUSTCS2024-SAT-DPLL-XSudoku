@@ -1,6 +1,8 @@
 # 华中科技大学2024秋数据结构综合课程设计：基于SAT的对角线数独游戏求解程序
 参考资料
 
+[个人笔记](https://www.cnblogs.com/losyi/p/18397445)
+
 [HUST-SAT_solver_embedded_in_hanidoku](https://github.com/jiajingyyyyyy/HUST-SAT_solver_embedded_in_hanidoku)
 
 [Propositional SAT Solving：DPLL算法求解CNF SAT 与 数独求解程序(C++ 实现)](https://blog.csdn.net/M1170780140/article/details/128053901)
@@ -9,9 +11,8 @@
 
 [DPLL-SAT-Solver](https://github.com/hjnodm/DPLL-SAT-Solver/blob/master)
 
-[个人笔记](https://www.cnblogs.com/losyi/p/18397445)
-
 注:
 本项目用vector存储cnf，进行传播时需要重新建立一个vector，在处理长子句时效率极低
 
+虽然本项目功能上涵盖了课设要求，但是跑的很慢（~~能跑就行~~）
 用链表的同学可参考[DPLL求解K-SAT问题 C++实现](https://www.cnblogs.com/chesium/p/15982285.html)
