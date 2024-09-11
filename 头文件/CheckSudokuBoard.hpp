@@ -30,21 +30,22 @@ bool CheckBox(const vector<int>& board, int startRow, int startCol,int r,int c ,
 }
 
 bool CheckBoard(const vector<int>& board, int x, int y, int num) {
-    // ½« (x, y) Î»ÖÃµÄÊı×Ö¸ÄÎª num ºó£¬¼ì²éÊı¶ÀÆåÅÌÊÇ·ñºÏ·¨
+    // å°† (x, y) ä½ç½®çš„æ•°å­—æ”¹ä¸º num åï¼Œæ£€æŸ¥æ•°ç‹¬æ£‹ç›˜æ˜¯å¦åˆæ³•
+    if(num==0) return true;
     vector<int> nowboard = board;
     nowboard[(x - 1) * 9 + y - 1] = num;
 
-    // ¼ì²éĞĞ
+    // æ£€æŸ¥è¡Œ
     if (!CheckRow(nowboard, x - 1,y-1, num)) {
         return false;
     }
 
-    // ¼ì²éÁĞ
+    // æ£€æŸ¥åˆ—
     if (!CheckColumn(nowboard, y - 1,x-1, num)) {
         return false;
     }
 
-    // ¼ì²é 3x3 ·½¿ò
+    // æ£€æŸ¥ 3x3 æ–¹æ¡†
     int startRow = (x - 1) / 3 * 3;
     int startCol = (y - 1) / 3 * 3;
     if (!CheckBox(nowboard, startRow, startCol,x-1,y-1,num)) {
