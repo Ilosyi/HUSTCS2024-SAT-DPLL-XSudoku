@@ -177,12 +177,7 @@ int main() {
 								system("pause");
 								break;
 							}
-							if (GamePlayBoard[(x - 1) * 9 + y - 1] != 0)
-							{
-								cout << "该位置已有数字，请重新输入" << endl;
-								system("pause");
-								break;
-							}
+							
 							if (GameBoard[(x - 1) * 9 + y - 1] != 0)
 							{
 								cout << "该位置不可填写，请重新输入" << endl;
@@ -264,18 +259,13 @@ int main() {
 						case 1:
 							cout << "请输入坐标（x,y）和数字：";
 							cin >> x >> y >> num;
-							if (x < 1 || x>9 || y < 1 || y>9 || num < 1 || num>9)
+							if (x < 1 || x>9 || y < 1 || y>9 || num < 0 || num>9)
 							{
 								cout << "输入错误，请重新输入" << endl;
 								system("pause");
 								break;
 							}
-							if (GamePlayBoard[(x - 1) * 9 + y - 1] != 0)
-							{
-								cout << "该位置已有数字，请重新输入" << endl;
-								system("pause");
-								break;
-							}
+							
 							if (GameBoard[(x - 1) * 9 + y - 1] != 0)
 							{
 								cout << "该位置不可填写，请重新输入" << endl;
