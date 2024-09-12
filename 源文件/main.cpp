@@ -7,40 +7,40 @@
 #include"definition.h"
 #include"GenerateXSudoku.h"
 #include"CheckSudokuBoard.hpp"
-bool SudokuToCnf(const vector<int>& board, int empty);//å°†æ•°ç‹¬è½¬åŒ–ä¸ºCNF
-bool XSudokuToCnf(const vector<int>& board, int empty);//å°†å¯¹è§’çº¿æ•°ç‹¬è½¬åŒ–ä¸ºCNF
+bool SudokuToCnf(const vector<int>& board, int empty);//½«Êı¶À×ª»¯ÎªCNF
+bool XSudokuToCnf(const vector<int>& board, int empty);//½«¶Ô½ÇÏßÊı¶À×ª»¯ÎªCNF
 
-int Count = 0;//é€’å½’æ¬¡æ•°
-int numVars = 0, numClauses = 0;//å˜å…ƒæ•°å’Œå­å¥æ•°
+int Count = 0;//µİ¹é´ÎÊı
+int numVars = 0, numClauses = 0;//±äÔªÊıºÍ×Ó¾äÊı
 
 int main() {
-	int choice = 1, choice2 = 1, choice3 = 1, choice4 = 1, way = 1;//é€‰æ‹©
-	int isRead = 0;//æ˜¯å¦è¯»å–CNFæ–‡ä»¶
-	std::string filename;//æ–‡ä»¶å
+	int choice = 1, choice2 = 1, choice3 = 1, choice4 = 1, way = 1;//Ñ¡Ôñ
+	int isRead = 0;//ÊÇ·ñ¶ÁÈ¡CNFÎÄ¼ş
+	std::string filename;//ÎÄ¼şÃû
 	CNF Cnf;	//CNF
-	clock_t start, end;//è®¡æ—¶
-	double time1 = 0, time2 = 0;//æ—¶é—´æ¯”è¾ƒ
-	int* assignments = nullptr;//å¸ƒå°”å˜å…ƒçš„èµ‹å€¼çŠ¶æ€
+	clock_t start, end;//¼ÆÊ±
+	double time1 = 0, time2 = 0;//Ê±¼ä±È½Ï
+	int* assignments = nullptr;//²¼¶û±äÔªµÄ¸³Öµ×´Ì¬
 
     Sodoku* sodoku = new Sodoku();
-    vector<int> NormalBoard(81, 0);//æ•°ç‹¬å®Œæ•´æ£‹ç›˜
-    vector<int> GameBoard(81, 0);//æŒ–æ´ç”Ÿæˆçš„æ•°ç‹¬æ¸¸æˆæ£‹ç›˜
-	vector<int> GamePlayBoard(81, 0);//ç©å®¶å¡«å†™çš„æ•°ç‹¬æ¸¸æˆæ£‹ç›˜
-	int empty = 0;//æŒ–æ´æ•°ç›®
-	int x = 0, y = 0, num = 0;//ç©å®¶è¾“å…¥çš„åæ ‡å’Œæ•°å­—
+    vector<int> NormalBoard(81, 0);//Êı¶ÀÍêÕûÆåÅÌ
+    vector<int> GameBoard(81, 0);//ÍÚ¶´Éú³ÉµÄÊı¶ÀÓÎÏ·ÆåÅÌ
+	vector<int> GamePlayBoard(81, 0);//Íæ¼ÒÌîĞ´µÄÊı¶ÀÓÎÏ·ÆåÅÌ
+	int empty = 0;//ÍÚ¶´ÊıÄ¿
+	int x = 0, y = 0, num = 0;//Íæ¼ÒÊäÈëµÄ×ø±êºÍÊı×Ö
 
-	srand(static_cast<unsigned int>(time(nullptr)));//éšæœºæ•°ç§å­
+	srand(static_cast<unsigned int>(time(nullptr)));//Ëæ»úÊıÖÖ×Ó
 
     while (true) {
         cout << endl << endl;
-		cout << "\t  èœ  å•" << endl;
+		cout << "\t  ²Ë  µ¥" << endl;
         cout << "**********************************" << endl;
         cout << endl;
-		cout << "1.SATæ±‚è§£å™¨\t  2.æ•°ç‹¬æ¸¸æˆ"<< endl;
+		cout << "1.SATÇó½âÆ÷\t  2.Êı¶ÀÓÎÏ·"<< endl;
         cout << endl;
         cout << "0. Exit" << endl;
         cout << "**********************************" << endl;
-        cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š";
+        cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º";
         cin >> choice;
 		system("cls");
         switch (choice) {
@@ -50,16 +50,16 @@ int main() {
             {
                 way = 1;
                 cout << endl;
-                cout << "*****************SATæ±‚è§£********************" << endl << endl;
-				cout << "\t1.è¯»å–CNFæ–‡ä»¶     2.æ‰“å°CNFæ–‡ä»¶" << endl<<endl;
-				cout << "\t3.æ±‚è§£CNFæ–‡ä»¶     0.è¿”å›" << endl;
+                cout << "*****************SATÇó½â********************" << endl << endl;
+				cout << "\t1.¶ÁÈ¡CNFÎÄ¼ş     2.´òÓ¡CNFÎÄ¼ş" << endl<<endl;
+				cout << "\t3.Çó½âCNFÎÄ¼ş     0.·µ»Ø" << endl;
                 cout << "********************************************" << endl<<endl;
-                cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š";
+                cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º";
 				cin >> choice2;
                 switch (choice2)
                 {
                 case 1:
-                    cout << "è¯·è¾“å…¥CNFæ–‡ä»¶è·¯å¾„ï¼š";
+                    cout << "ÇëÊäÈëCNFÎÄ¼şÂ·¾¶£º";
                     cin >> filename;
                     if (CNFParser::parse(Cnf, filename, numVars, numClauses))
                     {
@@ -67,16 +67,16 @@ int main() {
                         if (assignments != nullptr) delete[] assignments;
 						assignments = new int[numVars + 1];
 			            
-                        cout << "è¯»å–æˆåŠŸ" << endl;
+                        cout << "¶ÁÈ¡³É¹¦" << endl;
                     }
-                    //æŒ‰ä»»æ„é”®ç»§ç»­
+                    //°´ÈÎÒâ¼ü¼ÌĞø
                     system("pause");
                     system("cls");
                     break;
                 case 2:
-					if (Cnf.isEmpty()) cout << "CNFä¸ºç©º" << endl;
+					if (Cnf.isEmpty()) cout << "CNFÎª¿Õ" << endl;
                     else Cnf.print();
-					//æŒ‰ä»»æ„é”®ç»§ç»­
+					//°´ÈÎÒâ¼ü¼ÌĞø
 					system("pause");
                     system("cls");
                     break;
@@ -84,42 +84,42 @@ int main() {
                     while (isRead&&way) {
                         Count = 0;
                         cout << endl;
-						cout << "----------å˜å…ƒé€‰æ‹©ç­–ç•¥------------" << endl;
-                        cout << "---1.éšæœºé€‰æ‹©å˜å…ƒ" << endl;
-                        cout << "---2.é€‰æ‹©ç¬¬ä¸€ä¸ªå˜å…ƒ" << endl;
-                        cout << "---3.é€‰æ‹©å‡ºç°æ¬¡æ•°æœ€å¤šçš„æ–‡å­—" << endl;
-                        cout << "---4.é€‰æ‹©æƒé‡æœ€å¤§çš„æ–‡å­—" << endl;
-						cout << "---5.é€‰æ‹©æƒé‡æœ€å¤§çš„æ–‡å­—ï¼ˆåŒºåˆ†æ­£è´Ÿï¼‰" << endl;
-                        cout << "---0.è¿”å›" << endl;
+						cout << "----------±äÔªÑ¡Ôñ²ßÂÔ------------" << endl;
+                        cout << "---1.Ëæ»úÑ¡Ôñ±äÔª" << endl;
+                        cout << "---2.Ñ¡ÔñµÚÒ»¸ö±äÔª" << endl;
+                        cout << "---3.Ñ¡Ôñ³öÏÖ´ÎÊı×î¶àµÄÎÄ×Ö" << endl;
+                        cout << "---4.Ñ¡ÔñÈ¨ÖØ×î´óµÄÎÄ×Ö" << endl;
+						cout << "---5.Ñ¡ÔñÈ¨ÖØ×î´óµÄÎÄ×Ö£¨Çø·ÖÕı¸º£©" << endl;
+                        cout << "---0.·µ»Ø" << endl;
                         cout << endl;
-                        cout << "è¯·è¾“å…¥å˜å…ƒé€‰æ‹©ç­–ç•¥:";
+                        cout << "ÇëÊäÈë±äÔªÑ¡Ôñ²ßÂÔ:";
                         cin >> way;
                         if (way == 0) { system("cls"); break; }
-                        //è®¡ç®—æ‰§è¡Œæ—¶é—´
+                        //¼ÆËãÖ´ĞĞÊ±¼ä
 
                         start = clock();
                         bool result = DPLL(Cnf, way, assignments);
                         if (result)
                         {
-                            cout << "å¯æ»¡è¶³" << endl;
+                            cout << "¿ÉÂú×ã" << endl;
 							printAssignments(assignments,1);
                         }
-                        else cout << "ä¸å¯æ»¡è¶³" << endl;
+                        else cout << "²»¿ÉÂú×ã" << endl;
                         end = clock();
                         
 						if (way == 2) time1 = (double)(end - start);
                         time2 = (double)(end - start);
                         saveResultToFile(filename, result, assignments, time2);
-                        cout << "æ‰§è¡Œæ—¶é—´ï¼š" << time2 << "ms" << endl;
-						if (time1 == 0 || time1 == time2 || time2 == 0) cout << "æ—¶é—´ä¼˜åŒ–ç‡ï¼š0%" << endl;
-						else cout << "æ—¶é—´ä¼˜åŒ–ç‡ï¼š" << (time1 - time2) / time1 * 100 << "%" << endl;
+                        cout << "Ö´ĞĞÊ±¼ä£º" << time2 << "ms" << endl;
+						if (time1 == 0 || time1 == time2 || time2 == 0) cout << "Ê±¼äÓÅ»¯ÂÊ£º0%" << endl;
+						else cout << "Ê±¼äÓÅ»¯ÂÊ£º" << (time1 - time2) / time1 * 100 << "%" << endl;
 
                         system("pause");
                         system("cls");
                     }
                     if (isRead == 0)
                     {
-						cout << "è¯·å…ˆè¯»å–CNFæ–‡ä»¶" << endl;
+						cout << "ÇëÏÈ¶ÁÈ¡CNFÎÄ¼ş" << endl;
                         system("pause");
                         system("cls");
                     }
@@ -140,11 +140,11 @@ int main() {
             {
                
                 cout << endl;
-                cout << "*****************æ•°ç‹¬æ¸¸æˆ*******************" << endl << endl;
-                cout << "\t1.æ™®é€šæ•°ç‹¬     2.å¯¹è§’çº¿æ•°ç‹¬" << endl << endl;;
-                cout << "\t0.è¿”å›" << endl;
+                cout << "*****************Êı¶ÀÓÎÏ·*******************" << endl << endl;
+                cout << "\t1.ÆÕÍ¨Êı¶À     2.¶Ô½ÇÏßÊı¶À" << endl << endl;;
+                cout << "\t0.·µ»Ø" << endl;
                 cout << "********************************************" << endl << endl;;
-                cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š";
+                cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º";
                 cin >> choice3;
                 switch (choice3)
                 {
@@ -158,36 +158,36 @@ int main() {
                     {
 						system("cls");
 						cout << endl;
-						cout << "-----------------æ•°ç‹¬æ¸¸æˆ-----------------" << endl << endl;
-						cout << "\t1.å¡«å†™æ•°å­—     2.æŸ¥çœ‹ç­”æ¡ˆ" << endl << endl;
-                        cout << "\t3.é‡æ–°å¼€å§‹     4.æ¸…å±" << endl << endl;
-                        cout << "\t5.DPLLæ±‚è§£     0.è¿”å›" << endl;
+						cout << "-----------------Êı¶ÀÓÎÏ·-----------------" << endl << endl;
+						cout << "\t1.ÌîĞ´Êı×Ö     2.²é¿´´ğ°¸" << endl << endl;
+                        cout << "\t3.ÖØĞÂ¿ªÊ¼     4.ÇåÆÁ" << endl << endl;
+                        cout << "\t5.DPLLÇó½â     0.·µ»Ø" << endl;
 						cout << "-------------------------------------------" << endl << endl;
                         PrintBoard(GamePlayBoard);
-						cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š";
+						cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º";
 						cin >> choice4;
 						switch (choice4)
 						{
 						case 1:
-							cout << "è¯·è¾“å…¥åæ ‡ï¼ˆx,yï¼‰å’Œæ•°å­—ï¼š";
+							cout << "ÇëÊäÈë×ø±ê£¨x,y£©ºÍÊı×Ö£º";
 							cin >> x >> y >> num;
 							if (x < 1 || x>9 || y < 1 || y>9 || num < 0 || num>9)
 							{
-								cout << "è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "ÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
 							
 							if (GameBoard[(x - 1) * 9 + y - 1] != 0)
 							{
-								cout << "è¯¥ä½ç½®ä¸å¯å¡«å†™ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "¸ÃÎ»ÖÃ²»¿ÉÌîĞ´£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
-							//æ£€æµ‹å½“å‰å±€é¢æ˜¯å¦åˆæ³•
+							//¼ì²âµ±Ç°¾ÖÃæÊÇ·ñºÏ·¨
 							if (CheckBoard(GamePlayBoard, x, y, num) == false)
 							{
-								cout << "å¡«å†™é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "ÌîĞ´´íÎó£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
@@ -216,14 +216,14 @@ int main() {
                                 numVars = 999;
 								if (assignments != nullptr) delete[] assignments;
 								assignments = new int[numVars + 1];
-								cout << "è¯»å–æˆåŠŸ" << endl;
+								cout << "¶ÁÈ¡³É¹¦" << endl;
 							}
 							if (DPLL(Cnf, 2, assignments))
 							{
-								cout << "æ•°ç‹¬å¯è§£" << endl;
+								cout << "Êı¶À¿É½â" << endl;
 								printAssignments(assignments,0);
 							}
-							else cout << "æ•°ç‹¬ä¸å¯è§£" << endl;
+							else cout << "Êı¶À²»¿É½â" << endl;
 							system("pause");
 							break;
 						case 0:
@@ -246,36 +246,36 @@ int main() {
 					{
 						system("cls");
 						cout << endl;
-						cout << "-----------------æ•°ç‹¬æ¸¸æˆ-----------------" << endl << endl;
-						cout << "\t1.å¡«å†™æ•°å­—     2.æŸ¥çœ‹ç­”æ¡ˆ" << endl << endl;
-						cout << "\t3.é‡æ–°å¼€å§‹     4.æ¸…å±" << endl << endl;
-						cout << "\t5.DPLLæ±‚è§£     0.è¿”å›" << endl;
+						cout << "-----------------Êı¶ÀÓÎÏ·-----------------" << endl << endl;
+						cout << "\t1.ÌîĞ´Êı×Ö     2.²é¿´´ğ°¸" << endl << endl;
+						cout << "\t3.ÖØĞÂ¿ªÊ¼     4.ÇåÆÁ" << endl << endl;
+						cout << "\t5.DPLLÇó½â     0.·µ»Ø" << endl;
 						cout << "-------------------------------------------" << endl << endl;
 						PrintBoard(GamePlayBoard);
-						cout << "è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š";
+						cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º";
 						cin >> choice4;
 						switch (choice4)
 						{
 						case 1:
-							cout << "è¯·è¾“å…¥åæ ‡ï¼ˆx,yï¼‰å’Œæ•°å­—ï¼š";
+							cout << "ÇëÊäÈë×ø±ê£¨x,y£©ºÍÊı×Ö£º";
 							cin >> x >> y >> num;
 							if (x < 1 || x>9 || y < 1 || y>9 || num < 0 || num>9)
 							{
-								cout << "è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "ÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
 							
 							if (GameBoard[(x - 1) * 9 + y - 1] != 0)
 							{
-								cout << "è¯¥ä½ç½®ä¸å¯å¡«å†™ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "¸ÃÎ»ÖÃ²»¿ÉÌîĞ´£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
-							//æ£€æµ‹å½“å‰å±€é¢æ˜¯å¦åˆæ³•
+							//¼ì²âµ±Ç°¾ÖÃæÊÇ·ñºÏ·¨
 							if (CheckBoard(GamePlayBoard, x, y, num) == false)
 							{
-								cout << "å¡«å†™é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥" << endl;
+								cout << "ÌîĞ´´íÎó£¬ÇëÖØĞÂÊäÈë" << endl;
 								system("pause");
 								break;
 							}
@@ -305,14 +305,14 @@ int main() {
 								numVars = 999;
 								if (assignments != nullptr) delete[] assignments;
 								assignments = new int[numVars + 1];
-								cout << "è¯»å–æˆåŠŸ" << endl;
+								cout << "¶ÁÈ¡³É¹¦" << endl;
 							}
 							if (DPLL(Cnf, 2, assignments))
 							{
-								cout << "æ•°ç‹¬å¯è§£" << endl;
+								cout << "Êı¶À¿É½â" << endl;
 								printAssignments(assignments,0);
 							}
-							else cout << "æ•°ç‹¬ä¸å¯è§£" << endl;
+							else cout << "Êı¶À²»¿É½â" << endl;
 							system("pause");
 							break;
 						case 0:
@@ -336,10 +336,10 @@ int main() {
             }
             break;
         case 0:
-			cout << "é€€å‡ºç¨‹åº" << endl;
+			cout << "ÍË³ö³ÌĞò" << endl;
             return 0;
         default:
-            cout << "æ— æ•ˆçš„é€‰æ‹©ï¼Œè¯·é‡æ–°å°è¯•\n";
+            cout << "ÎŞĞ§µÄÑ¡Ôñ£¬ÇëÖØĞÂ³¢ÊÔ\n";
         }
     }
 
